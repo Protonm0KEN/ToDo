@@ -7,6 +7,15 @@ import "./App.scss";
 import SvgIcons from "./assets/icons/SvgIcons";
 import ToDoModal from "./components/ToDoModal/ToDoModal";
 
+const getTodos = () => {
+  const todos = localStorage.getItem("todos")
+  if(todos){
+    return JSON.parse(todos)
+  }else{
+    return []
+  }
+}
+getTodos()
 function App() {
   const [gridToList, setGridToList] = useState(false);
 
@@ -14,9 +23,13 @@ function App() {
     setGridToList(!gridToList);
   };
 
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(getTodos());
 
   const [openModal, setOpenModal] = useState(false);
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
+  //* Типо componentDidMount
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -24,7 +37,6 @@ function App() {
     setOpenModal(false);
   };
   const [search, setSearch] = useState("");
-  console.log(todos);
   const handleAddTodos = (e) => {
     e.preventDefault();
     if (title && content) {
@@ -55,7 +67,7 @@ function App() {
         <div className={gridToList ? "grid" : ""}>
           {todos
             .filter((todo) => {
-              return todo.title.toLowerCase().includes(search.toLowerCase());
+              return todo.title.toLowerCase().includes(search.toLowerCase()) || todo.content.toLowerCase().includes(search.toLowerCase());
             })
             .map((todo) => (
               <ListItem key={todo.id} gridToList={gridToList} todo={todo} />

@@ -9,13 +9,17 @@ const ToDoHeader = ({search, setSearch}) => {
   }
   const handleCloseSearch = () => {
     setOpenSearch(false)
+    setSearch('')
   }
-  
+  const handleBack = () => {
+    setOpenSearch(false)
+  }
   return (
     openSearch ? <ToDoSearch 
     search = {search} 
     setSearch = {setSearch} 
-    handleCloseSearch={handleCloseSearch}/> 
+    handleCloseSearch={handleCloseSearch}
+    handleBack = {handleBack}/> 
     :
     <div className='todoHeader'>
         <h2 className="todoHeader__title">Заметки</h2>
