@@ -54,7 +54,11 @@ function App() {
       setContent("");
     }
   };
-
+const handleRemoveTodo  = (id) => {
+  setTodos([...todos.filter((todo) => {
+    return todo.id !== id
+  })])
+}
   const [title, setTitle] = useState("");
 
   const [content, setContent] = useState("");
@@ -70,7 +74,10 @@ function App() {
               return todo.title.toLowerCase().includes(search.toLowerCase()) || todo.content.toLowerCase().includes(search.toLowerCase());
             })
             .map((todo) => (
-              <ListItem key={todo.id} gridToList={gridToList} todo={todo} />
+              <ListItem key={todo.id} 
+              gridToList={gridToList} 
+              todo={todo}
+              removeTodo = {handleRemoveTodo} />
             ))}
         </div>
       </div>
