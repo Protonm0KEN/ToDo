@@ -8,14 +8,14 @@ import SvgIcons from "./assets/icons/SvgIcons";
 import ToDoModal from "./components/ToDoModal/ToDoModal";
 
 const getTodos = () => {
-  const todos = localStorage.getItem("todos")
-  if(todos){
-    return JSON.parse(todos)
-  }else{
-    return []
+  const todos = localStorage.getItem("todos");
+  if (todos) {
+    return JSON.parse(todos);
+  } else {
+    return [];
   }
-}
-getTodos()
+};
+getTodos();
 function App() {
   const [gridToList, setGridToList] = useState(false);
 
@@ -27,8 +27,8 @@ function App() {
 
   const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos))
-  }, [todos])
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
   //* Типо componentDidMount
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -54,11 +54,26 @@ function App() {
       setContent("");
     }
   };
-const handleRemoveTodo  = (id) => {
-  setTodos([...todos.filter((todo) => {
-    return todo.id !== id
-  })])
-}
+  const handleRemoveTodo = (id) => {
+    setTodos([
+      ...todos.filter((todo) => {
+        return todo.id !== id;
+      }),
+    ]);
+  };
+  const handleEditTodo = (id, title, content) => {
+    const newTodo = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.title = title;
+        todo.content = content;
+        todo.date = `${new Date().getDate()}.${
+          new Date().getMonth() + 1
+        }.${new Date().getFullYear()}`;
+      }
+      return todo
+    });
+    setTodos(newTodo)
+  };
   const [title, setTitle] = useState("");
 
   const [content, setContent] = useState("");
@@ -71,13 +86,18 @@ const handleRemoveTodo  = (id) => {
         <div className={gridToList ? "grid" : ""}>
           {todos
             .filter((todo) => {
-              return todo.title.toLowerCase().includes(search.toLowerCase()) || todo.content.toLowerCase().includes(search.toLowerCase());
+              return (
+                todo.title.toLowerCase().includes(search.toLowerCase()) ||
+                todo.content.toLowerCase().includes(search.toLowerCase())
+              );
             })
             .map((todo) => (
-              <ListItem key={todo.id} 
-              gridToList={gridToList} 
-              todo={todo}
-              removeTodo = {handleRemoveTodo} />
+              <ListItem
+                key={todo.id}
+                gridToList={gridToList}
+                todo={todo}
+                removeTodo={handleRemoveTodo}
+              />
             ))}
         </div>
       </div>
