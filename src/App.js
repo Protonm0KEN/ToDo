@@ -23,7 +23,7 @@ function App() {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-  const [ search , setSearch ] = useState('')
+  const [search, setSearch] = useState("");
   console.log(todos);
   const handleAddTodos = (e) => {
     e.preventDefault();
@@ -53,9 +53,13 @@ function App() {
       <div className="container">
         <ToDoNav gridToList={gridToList} setGridToList={setGridToList} />
         <div className={gridToList ? "grid" : ""}>
-          {todos.map((todo) => (
-            <ListItem key={todo.id} gridToList={gridToList} todo={todo} />
-          ))}
+          {todos
+            .filter((todo) => {
+              return todo.title.toLowerCase().includes(search.toLowerCase());
+            })
+            .map((todo) => (
+              <ListItem key={todo.id} gridToList={gridToList} todo={todo} />
+            ))}
         </div>
       </div>
       <div className="App-btn">
