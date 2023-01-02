@@ -23,7 +23,7 @@ const ToDoModal = ({
     <div className={openModal ? "modal active" : "modal"}>
       <div className="modal__wrapper">
         <h2 className="modal__title">{text} заметку</h2>
-        <form action="input" className="modal__form">
+        <form onSubmit={handleBtn} action="input" className="modal__form">
           <div className="modal__group">
             <input type="text" required onChange={onChangeTitle} value={title} />
             <span></span>

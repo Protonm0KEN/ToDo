@@ -7,13 +7,16 @@ import "./App.scss";
 import SvgIcons from "./assets/icons/SvgIcons";
 import ToDoModal from "./components/ToDoModal/ToDoModal";
 
+
+//* Сохранение в Local storage
 const getTodos = () => {
-  const todos = localStorage.getItem("todos");
+  const todos = localStorage.getItem("todos"); //* записываем в переменную todos localStorage в которой будет храниться элемент с ключом todos
+  //* Если todos присутствует то мы парсим в json todos
   if (todos) {
     return JSON.parse(todos);
   } else {
     return [];
-  }
+  }//* если нет то возвращает пустой массив
 };
 getTodos();
 function App() {
@@ -23,9 +26,10 @@ function App() {
     setGridToList(!gridToList);
   };
 
-  const [todos, setTodos] = useState(getTodos());
+  const [todos, setTodos] = useState(getTodos()); //* Изначальное состояние считается массив т.к мы ретурним []
 
   const [openModal, setOpenModal] = useState(false);
+  //* При встраивании и обновлении компонента срабатывает появление эелмента внутри localStorage todos в ктором JSON превращает в строку массив todos
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -39,9 +43,10 @@ function App() {
   const [search, setSearch] = useState("");
   const handleAddTodos = (e) => {
     e.preventDefault();
+    //* Если title а такде content  присутствует то выполняем операцию создания новой тудушки
     if (title && content) {
       const newTodos = {
-        id: Math.random().toString(36).substring(2, 12),
+        id: Math.random().toString(36).substring(2, 12), //* Превращаем цифры в текст с radix 36 и полем между 2 и 12
         title,
         content,
         date: `${new Date().getDate()}.${
